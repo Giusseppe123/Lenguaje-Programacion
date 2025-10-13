@@ -58,3 +58,8 @@ type Tarea struct {
 }
 
 type Tareas []Tarea
+
+type GestorDeTareas struct {
+	Tareas      Tareas `json:"tareas"`
+	SiguienteID int    `json:"siguiente_id"`
+}

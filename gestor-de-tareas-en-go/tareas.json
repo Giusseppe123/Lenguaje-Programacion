@@ -1,33 +1,17 @@
-[
-    {
-        "id": 0,
-        "titulo": "Tarea de Lenguaje",
-        "estado": "Completada",
-        "fecha_creacion": "2025-10-10T22:54:02.5709324-04:00"
-    },
-    {
-        "id": 2,
-        "titulo": "Pasar Lenguaje",
-        "estado": "En Progreso",
-        "fecha_creacion": "2025-10-11T08:05:07.0443707-04:00"
-    },
-    {
-        "id": 3,
-        "titulo": "Hola",
-        "estado": "Pendiente",
-        "fecha_creacion": "2025-10-11T08:07:01.4317244-04:00",
-        "fecha_edicion": "2025-10-12T23:13:51.5082159-04:00"
-    },
-    {
-        "id": 4,
-        "titulo": "Pasear Al perro",
-        "estado": "Completada",
-        "fecha_creacion": "2025-10-11T08:09:01.7819761-04:00"
-    },
-    {
-        "id": 5,
-        "titulo": "Hacer ejercicio",
-        "estado": "Pendiente",
-        "fecha_creacion": "2025-10-11T08:23:16.8267677-04:00"
-    }
-]
+{
+    "tareas": [
+        {
+            "id": 0,
+            "titulo": "Pasear al gato",
+            "estado": "Pendiente",
+            "fecha_creacion": "2025-10-13T19:16:27.5584815-04:00"
+        },
+        {
+            "id": 2,
+            "titulo": "ir a la universidad",
+            "estado": "Pendiente",
+            "fecha_creacion": "2025-10-13T19:16:46.5972999-04:00"
+        }
+    ],
+    "siguiente_id": 3
+}

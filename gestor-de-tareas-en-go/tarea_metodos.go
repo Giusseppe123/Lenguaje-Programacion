@@ -7,26 +7,22 @@ import (
 	"time"
 )
 
-func (t *Tareas) Agregar(titulo string) {
-	nuevoID := 0
-	if len(*t) > 0 {
-		sort.Slice(*t, func(i, j int) bool {
-			return (*t)[i].ID < (*t)[j].ID
-		})
-		nuevoID = (*t)[len(*t)-1].ID + 1
-	}
+func (g *GestorDeTareas) Agregar(titulo string) {
+	nuevoID := g.SiguienteID
+	g.SiguienteID++
 
 	tarea := Tarea{
 		ID:            nuevoID,
 		Titulo:        titulo,
 		Estado:        Pendiente,
 		FechaCreacion: time.Now(),
+		FechaEdicion:  nil,
 	}
-	*t = append(*t, tarea)
+	g.Tareas = append(g.Tareas, tarea)
 }
 
-func (t *Tareas) validarID(id int) (int, error) {
-	for i, tarea := range *t {
+func (g *GestorDeTareas) validarID(id int) (int, error) {
+	for i, tarea := range g.Tareas {
 		if tarea.ID == id {
 			return i, nil
 		}
@@ -34,69 +30,59 @@ func (t *Tareas) validarID(id int) (int, error) {
 	return -1, errors.New("ID de tarea no encontrado")
 }
 
-func (t *Tareas) Eliminar(id int) error {
-	idx, err := t.validarID(id)
+func (g *GestorDeTareas) Eliminar(id int) error {
+	idx, err := g.validarID(id)
 	if err != nil {
 		return err
 	}
-	*t = append((*t)[:idx], (*t)[idx+1:]...)
+	g.Tareas = append((g.Tareas)[:idx], (g.Tareas)[idx+1:]...)
 	return nil
 }
 
-func (t *Tareas) AlternarEstado(id int) error {
-	idx, err := t.validarID(id)
+func (g *GestorDeTareas) AlternarEstado(id int) error {
+	idx, err := g.validarID(id)
 	if err != nil {
 		return err
 	}
-
-	switch (*t)[idx].Estado {
+	switch g.Tareas[idx].Estado {
 	case Pendiente:
-		(*t)[idx].Estado = EnProgreso
+		g.Tareas[idx].Estado = EnProgreso
 	case EnProgreso:
-		(*t)[idx].Estado = Completada
+		g.Tareas[idx].Estado = Completada
 	case Completada:
-		(*t)[idx].Estado = Pendiente
+		g.Tareas[idx].Estado = Pendiente
 	}
 	return nil
 }
 
-func (t *Tareas) Editar(id int, nuevoTitulo string) error {
-	idx, err := t.validarID(id)
+func (g *GestorDeTareas) Editar(id int, nuevoTitulo string) error {
+	idx, err := g.validarID(id)
 	if err != nil {
 		return err
 	}
-	(*t)[idx].Titulo = nuevoTitulo
-	
-
+	g.Tareas[idx].Titulo = nuevoTitulo
 	ahora := time.Now()
-	(*t)[idx].FechaEdicion = &ahora
-	
-
+	g.Tareas[idx].FechaEdicion = &ahora
 	return nil
 }
 
-func (t *Tareas) Imprimir() {
-	if len(*t) == 0 {
+func (g *GestorDeTareas) Imprimir() {
+	if len(g.Tareas) == 0 {
 		fmt.Println("No hay tareas para mostrar. ¡Agrega alguna!")
 		return
 	}
 
-	sort.SliceStable(*t, func(i, j int) bool {
-		return (*t)[i].ID < (*t)[j].ID
+	sort.SliceStable(g.Tareas, func(i, j int) bool {
+		return g.Tareas[i].ID < g.Tareas[j].ID
 	})
 
-	
-	fmt.Printf("%-5s %-30s %-15s %-20s %-20s\n", "ID", "Título", "Estado", "Creada el", "Editada el")
+	fmt.Printf("%-5s %-30s %-15s %-20s %-20s\n", "ID", "Titulo", "Estado", "Creada el", "Editada el")
 	fmt.Println("----- ------------------------------ --------------- -------------------- --------------------")
-	for _, tarea := range *t {
-		
-		
+	for _, tarea := range g.Tareas {
 		fechaEdicionStr := "-"
 		if tarea.FechaEdicion != nil {
 			fechaEdicionStr = tarea.FechaEdicion.Format("2006-01-02 15:04:05")
 		}
-
-		
 		fmt.Printf("%-5d %-30s %-15s %-20s %-20s\n",
 			tarea.ID,
 			tarea.Titulo,
@@ -105,5 +91,4 @@ func (t *Tareas) Imprimir() {
 			fechaEdicionStr,
 		)
 	}
-	
 }
