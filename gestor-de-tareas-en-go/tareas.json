@@ -11,7 +11,26 @@
             "titulo": "ir a la universidad",
             "estado": "Pendiente",
             "fecha_creacion": "2025-10-13T19:16:46.5972999-04:00"
+        },
+        {
+            "id": 3,
+            "titulo": "Pasear Al gato",
+            "estado": "Pendiente",
+            "fecha_creacion": "2025-10-13T20:32:50.4784954-04:00",
+            "fecha_edicion": "2025-10-13T20:34:27.6398289-04:00"
+        },
+        {
+            "id": 4,
+            "titulo": "Estudiar Lenguaje",
+            "estado": "Pendiente",
+            "fecha_creacion": "2025-10-13T20:33:02.1900455-04:00"
+        },
+        {
+            "id": 5,
+            "titulo": "Pasar La materia",
+            "estado": "En Progreso",
+            "fecha_creacion": "2025-10-13T20:33:15.6875691-04:00"
         }
     ],
-    "siguiente_id": 3
+    "siguiente_id": 6
 }
