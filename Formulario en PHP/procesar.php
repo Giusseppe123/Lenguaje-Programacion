@@ -2,7 +2,7 @@
 
 $registro_archivo = 'usuarios.json';
 
-if (empty($_POST['nombre']) || empty($_POST['correo']) || empty($_POST['contraseña'])) {
+if (empty($_POST['nombre']) || empty($_POST['correo']) || empty($_POST['contraseña']) || empty($_POST['confirmar_contraseña'])) {
     header("Location: index.php?error=Datos incompletos. Llena todos los campos.");
     exit;
 }
@@ -10,14 +10,12 @@ if (empty($_POST['nombre']) || empty($_POST['correo']) || empty($_POST['contrase
 $nombre_usuario = $_POST['nombre'];
 $email_usuario = $_POST['correo'];
 $contraseña = $_POST['contraseña'];
+$confirmacion = $_POST['confirmar_contraseña'];
 
-$contraseña_hasheada = password_hash($contraseña, PASSWORD_DEFAULT);
-
-$nuevo_registro = [
-    'nombre' => $nombre_usuario,
-    'email' => $email_usuario,
-    'password_hash' => $contraseña_hasheada,
-];
+if ($contraseña !== $confirmacion) {
+    header("Location: index.php?error=Las contraseñas no coinciden.");
+    exit;
+}
 
 $lista_usuarios = [];
 
@@ -30,6 +28,21 @@ if (file_exists($registro_archivo)) {
     }
 }
 
+foreach ($lista_usuarios as $usuario_existente) {
+    if ($usuario_existente['email'] === $email_usuario) {
+        header("Location: index.php?error=Ya existe un usuario registrado con este correo electrónico.");
+        exit;
+    }
+}
+
+$clave_hasheada = password_hash($contraseña, PASSWORD_DEFAULT);
+
+$nuevo_registro = [
+    'nombre' => $nombre_usuario,
+    'email' => $email_usuario,
+    'password_hash' => $clave_hasheada,
+];
+
 $lista_usuarios[] = $nuevo_registro;
 
 $json_a_guardar = json_encode($lista_usuarios, JSON_PRETTY_PRINT);
@@ -39,5 +52,5 @@ if (file_put_contents($registro_archivo, $json_a_guardar) === false) {
     exit;
 }
 
-header("Location: index.php?success=true");
+header("Location: login.php?registered=true");
 exit;

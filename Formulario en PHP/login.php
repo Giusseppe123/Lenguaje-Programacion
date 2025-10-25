@@ -1,8 +1,11 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro de Usuario</title>
+    <title>Inicio de Sesion</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,21 +41,13 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #f383c4ff;
+            border: 1px solid #e10080ff;
             border-radius: 5px;
             box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        input:invalid:focus {
-            border-color: #dc3545;
         }
         button {
             width: 100%;
-            background-color: #ba5695ff;
+            background-color: #ac398cff;
             color: white;
             padding: 12px;
             border: none;
@@ -60,10 +55,9 @@
             cursor: pointer;
             font-size: 16px;
             margin-top: 10px;
-            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #9f4a8bff;
+            background-color: #bd5396ff;
         }
         .message {
             padding: 10px;
@@ -72,7 +66,6 @@
             text-align: center;
             width: 100%;
             max-width: 350px;
-            box-sizing: border-box;
         }
         .success {
             background-color: #d4edda;
@@ -90,7 +83,7 @@
             font-size: 0.9em;
         }
         .registro-link a {
-            color: #ca5d92ff;
+            color: #a94a7eff;
             text-decoration: none;
         }
     </style>
@@ -98,41 +91,30 @@
 <body>
     
     <?php
-    if (isset($_GET['success'])) {
-        echo '<p class="message success">Registro completado con éxito.</p>';
+    if (isset($_SESSION['error_login'])) {
+        echo '<p class="message error">' . htmlspecialchars($_SESSION['error_login']) . '</p>';
+        unset($_SESSION['error_login']);
     }
-    if (isset($_GET['error'])) {
-        echo '<p class="message error">ERROR: ' . htmlspecialchars($_GET['error']) . '</p>';
+    if (isset($_GET['registered'])) {
+        echo '<p class="message success">¡Registro completado! Por favor, inicia sesión.</p>';
     }
     ?>
 
     <div class="container">
-        <h2>Registro de Usuario</h2>
+        <h2>Iniciar Sesion</h2>
         
-        <form action="procesar.php" method="POST">
+        <form action="autenticar.php" method="POST">
             
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-
-            <label for="correo">Correo Electrónico :</label>
-            <input type="text" id="correo" name="correo" 
-                   required
-                   pattern="^.+@gmail\.com$" 
-                   title="Debe usar el dominio @gmail.com (ej: usuario@gmail.com)">
+            <label for="email">Correo Electrónico:</label>
+            <input type="text" id="email" name="email" required>
             
             <label for="contraseña">Contraseña:</label>
-            <input type="password" id="contraseña" name="contraseña" 
-                   required
-                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                   title="Debe tener al menos 8 caracteres, incluyendo una mayúscula, una minúscula y un número.">
-
-            <label for="confirmar_contraseña">Confirmar Contraseña:</label>
-            <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required>
+            <input type="password" id="contraseña" name="contraseña" required>
             
-            <button type="submit">Registrar</button>
+            <button type="submit">Entrar</button>
         </form>
         
-        <p class="registro-link"><a href="login.php">¿Ya tienes cuenta? Inicia Sesión</a></p>
+        <p class="registro-link"><a href="index.php">¿No tienes cuenta? Registrate</a></p>
     </div>
 </body>
 </html>
