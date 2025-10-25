@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Registro de Usuario</title>
     <style>
-        /* Estilos que ya tenías */
+        
         body {
             font-family: Arial, sans-serif;
             background-color: #e9ecef;
@@ -48,9 +48,9 @@
             border-color: #007bff;
             outline: none;
         }
-        /* Resaltar campos que fallen la validación de formato */
+       
         input:invalid:focus {
-            border-color: #dc3545; /* Rojo */
+            border-color: #dc3545; 
         }
         button {
             width: 100%;
@@ -67,7 +67,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        /* Estilos para los mensajes de PHP */
+        
         .message {
             padding: 10px;
             margin-bottom: 20px;
