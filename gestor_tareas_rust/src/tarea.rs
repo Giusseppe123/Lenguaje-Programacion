@@ -28,3 +28,9 @@ pub struct Tarea {
     pub fecha_creacion: DateTime<Local>,
     pub fecha_edicion: Option<DateTime<Local>>,
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct GestorTareas {
+    pub tareas: Vec<Tarea>,
+    pub siguiente_id: u32,
+}

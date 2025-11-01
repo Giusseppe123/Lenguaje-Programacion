@@ -1,6 +1,5 @@
-use crate::tarea::{Tarea, Estado};
+use crate::tarea::{Estado, GestorTareas};
 use crate::errores::ErrorApp;
-
 
 fn parsear_estado(s: &str) -> Result<Estado, ErrorApp> {
     match s.to_lowercase().as_str() {
@@ -11,10 +10,10 @@ fn parsear_estado(s: &str) -> Result<Estado, ErrorApp> {
     }
 }
 
-pub fn cambiar_estado_tarea(tareas: &mut Vec<Tarea>, id: u32, nuevo_estado_str: &str) -> Result<(), ErrorApp> {
+pub fn cambiar_estado_tarea(gestor: &mut GestorTareas, id: u32, nuevo_estado_str: &str) -> Result<(), ErrorApp> {
     let nuevo_estado = parsear_estado(nuevo_estado_str)?;
     
-    if let Some(tarea) = tareas.iter_mut().find(|t| t.id == id) {
+    if let Some(tarea) = gestor.tareas.iter_mut().find(|t| t.id == id) {
         tarea.estado = nuevo_estado;
         Ok(())
     } else {

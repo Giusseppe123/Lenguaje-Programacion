@@ -1,18 +1,13 @@
-[
-  {
-    "id": 1,
-    "titulo": "Tarea",
-    "descripcion": "Tarea",
-    "estado": "Pendiente",
-    "fecha_creacion": "2025-10-16T19:16:47.890179600-04:00",
-    "fecha_edicion": "2025-10-16T19:17:11.332447900-04:00"
-  },
-  {
-    "id": 2,
-    "titulo": "Tarea",
-    "descripcion": "Hacer la tarea de lenguaje",
-    "estado": "Completada",
-    "fecha_creacion": "2025-10-18T07:57:44.949011200-04:00",
-    "fecha_edicion": "2025-10-18T07:58:02.981332700-04:00"
-  }
-]
+{
+  "tareas": [
+    {
+      "id": 2,
+      "titulo": "Pasear",
+      "descripcion": "Pasear al perro",
+      "estado": "Pendiente",
+      "fecha_creacion": "2025-11-01T07:39:36.547071500-04:00",
+      "fecha_edicion": null
+    }
+  ],
+  "siguiente_id": 3
+}

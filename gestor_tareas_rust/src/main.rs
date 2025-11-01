@@ -7,7 +7,7 @@ mod almacenamiento;
 mod comandos;
 
 use errores::ErrorApp;
-use almacenamiento::{cargar_tareas, guardar_tareas};
+use almacenamiento::{cargar_gestor, guardar_gestor};
 use comandos::{
     agregar::agregar_tarea,
     listar::listar_tareas,
@@ -30,7 +30,7 @@ fn imprimir_ayuda() {
 
 fn ejecutar() -> Result<(), ErrorApp> {
     let ruta_archivo = Path::new("tareas.json");
-    let mut tareas = cargar_tareas(ruta_archivo)?;
+    let mut gestor = cargar_gestor(ruta_archivo)?;
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
@@ -44,20 +44,20 @@ fn ejecutar() -> Result<(), ErrorApp> {
         "agregar" => {
             let titulo = args.get(2).cloned().ok_or_else(|| ErrorApp::EntradaInvalida("Falta el titulo.".to_string()))?;
             let descripcion = args.get(3).cloned().ok_or_else(|| ErrorApp::EntradaInvalida("Falta la descripcion.".to_string()))?;
-            agregar_tarea(&mut tareas, titulo.clone(), descripcion);
-            guardar_tareas(&tareas, ruta_archivo)?;
+            agregar_tarea(&mut gestor, titulo.clone(), descripcion);
+            guardar_gestor(&gestor, ruta_archivo)?;
             println!("Tarea '{}' agregada con exito.", titulo);
         }
         "listar" => {
-            listar_tareas(&tareas);
+            listar_tareas(&gestor);
         }
         "estado" => {
             let id_str = args.get(2).ok_or_else(|| ErrorApp::EntradaInvalida("Falta el ID de la tarea.".to_string()))?;
             let id = id_str.parse::<u32>().map_err(|_| ErrorApp::EntradaInvalida("El ID debe ser un numero.".to_string()))?;
             let nuevo_estado = args.get(3).ok_or_else(|| ErrorApp::EntradaInvalida("Falta el nuevo estado.".to_string()))?;
             
-            cambiar_estado_tarea(&mut tareas, id, nuevo_estado)?;
-            guardar_tareas(&tareas, ruta_archivo)?;
+            cambiar_estado_tarea(&mut gestor, id, nuevo_estado)?;
+            guardar_gestor(&gestor, ruta_archivo)?;
             println!("Estado de la tarea con ID {} actualizado a '{}'.", id, nuevo_estado);
         }
         "editar" => {
@@ -66,15 +66,15 @@ fn ejecutar() -> Result<(), ErrorApp> {
             let nuevo_titulo = args.get(3).cloned().ok_or_else(|| ErrorApp::EntradaInvalida("Falta el nuevo titulo.".to_string()))?;
             let nueva_descripcion = args.get(4).cloned().ok_or_else(|| ErrorApp::EntradaInvalida("Falta la nueva descripcion.".to_string()))?;
 
-            editar_tarea(&mut tareas, id, nuevo_titulo, nueva_descripcion)?;
-            guardar_tareas(&tareas, ruta_archivo)?;
+            editar_tarea(&mut gestor, id, nuevo_titulo, nueva_descripcion)?;
+            guardar_gestor(&gestor, ruta_archivo)?;
             println!("Tarea con ID {} editada con exito.", id);
         }
         "eliminar" => {
             let id_str = args.get(2).ok_or_else(|| ErrorApp::EntradaInvalida("Falta el ID de la tarea.".to_string()))?;
             let id = id_str.parse::<u32>().map_err(|_| ErrorApp::EntradaInvalida("El ID debe ser un numero.".to_string()))?;
-            eliminar_tarea(&mut tareas, id)?;
-            guardar_tareas(&tareas, ruta_archivo)?;
+            eliminar_tarea(&mut gestor, id)?;
+            guardar_gestor(&gestor, ruta_archivo)?;
             println!("Tarea con ID {} eliminada.", id);
         }
         _ => {

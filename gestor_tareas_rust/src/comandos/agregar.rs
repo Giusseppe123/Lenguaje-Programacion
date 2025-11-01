@@ -1,8 +1,9 @@
-use crate::tarea::{Tarea, Estado};
+use crate::tarea::{Tarea, Estado, GestorTareas};
 use chrono::Local;
 
-pub fn agregar_tarea(tareas: &mut Vec<Tarea>, titulo: String, descripcion: String) {
-    let nuevo_id = tareas.iter().map(|t| t.id).max().unwrap_or(0) + 1;
+pub fn agregar_tarea(gestor: &mut GestorTareas, titulo: String, descripcion: String) {
+    let nuevo_id = gestor.siguiente_id;
+    gestor.siguiente_id += 1;
 
     let nueva_tarea = Tarea {
         id: nuevo_id,
@@ -12,5 +13,5 @@ pub fn agregar_tarea(tareas: &mut Vec<Tarea>, titulo: String, descripcion: Strin
         fecha_creacion: Local::now(),
         fecha_edicion: None,
     };
-    tareas.push(nueva_tarea);
+    gestor.tareas.push(nueva_tarea);
 }
